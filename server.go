@@ -20,6 +20,8 @@ func Serve(addr string, conf *config.Config) {
 	router := traffic.New()
 	router.Get("/", IndexHandler(redisConn))
 	router.Get("/ws", WebsocketHandler(redisConn))
+	http.Handle("/static/", http.StripPrefix("/static/",
+		http.FileServer(http.Dir("static"))))
 	http.Handle("/", router)
 	http.ListenAndServe(addr, nil)
 }

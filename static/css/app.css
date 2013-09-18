@@ -1,0 +1,96 @@
+body {
+  background: #454;
+}
+
+body, input, button, select {
+  color: #444;
+  font-family: 'Open Sans';
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: Raleway;
+}
+
+h1, h2, h3, h4, h5, p, ul, ol, blockquote {
+  margin: 0 0 0.5em 0;
+}
+
+h1 {
+  color: #8b8;
+  text-shadow: 0 0.1em 0 #000;
+}
+
+input[type=text],
+input[type=password],
+button {
+  border-radius: 0.3em;
+  height: 2em;
+  padding: 0 1em;
+}
+
+input[type=text],
+input[type=password] {
+  background: white;
+  border: 2px #bbb solid;
+}
+
+input[type=text]:focus,
+input[type=password]:active {
+  outline: none;
+  border-color: #888;
+}
+
+button {
+  background: #888;
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+button.ok {
+  background: #8b8;
+}
+
+button.cancel {
+  background: #b88;
+}
+
+button.inline {
+  margin-left: 0.5em;
+}
+
+.app {
+  padding: 1.5em;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.box {
+  background: #eee;
+  border-radius: 0.6em;
+  margin-bottom: 1.5em;
+  padding: 1.5em;
+}
+
+.room ul {
+  background: #fff;
+  border: 2px #bbb solid;
+  border-radius: 0.3em;
+  height: 40em;
+  list-style: none;
+  padding: 0 0.5em;
+}
+
+.log {
+  padding: 0 0.5em 0 0;
+  width: 80%;
+}
+
+.users {
+  padding: 0;
+  width: 20%;
+}
+
+.chat input[name=chat] {
+  width: 100%;
+}

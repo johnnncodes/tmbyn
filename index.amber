@@ -2,5 +2,29 @@ doctype 5
 html
 	head
 		title KWENTO MO SA PAGONG
+		link[rel="stylesheet"][href="http://fonts.googleapis.com/css?family=Raleway:300,300italic,400,400italic,700,700italic|Open+Sans:300,300italic,400,400italic,700,700italic"]
+		link[rel="stylesheet"][href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css"]
+		link[rel="stylesheet"][href="/static/css/grid.css"]
+		link[rel="stylesheet"][href="/static/css/app.css"]
 	body
-		h1 KWENTO MO SA PAGOG
+		div.app
+			h1 KWENTOMOSAPAGONG.COM
+			div.enter.box
+				h2 Sino ka po?
+				input[type="text"][name="username"][placeholder="username"]
+				button.ok.inline Pasok
+			div.room.box
+				h2 Chat title
+				div.row
+					div.log.col
+						ul
+							li marksteve: Hello
+							li marksteve: Hello
+							li marksteve: Hello
+					div.users.col
+						ul
+							li marksteve
+							li marksteve
+							li marksteve
+				div.chat
+					input[type="text"][name="chat"]

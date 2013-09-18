@@ -7,7 +7,7 @@ import (
 )
 
 func IndexHandler(redisConn redis.Conn) func(http.ResponseWriter, *http.Request) {
-	t, err := amber.CompileFile("index.amber", amber.Options{true, true})
+	t, err := amber.CompileFile("index.amber", amber.Options{false, false})
 	if err != nil {
 		panic(err)
 	}
