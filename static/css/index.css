@@ -47,16 +47,21 @@ button {
   font-weight: bold;
 }
 
-button.ok {
+.ok {
   background: #8b8;
 }
 
-button.cancel {
+.cancel {
   background: #b88;
 }
 
-button.inline {
+.inline {
   margin-left: 0.5em;
+}
+
+.block {
+  display: block;
+  margin-bottom: 0.5em;
 }
 
 .app {
