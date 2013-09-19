@@ -48,12 +48,14 @@ var Room = Backbone.View.extend({
   },
   handleJoin: function(data) {
     this.notice({
+      icon: "icon-enter",
       text: "Andito na si " + data.user + "!"
     });
     this.$('.msg').focus();
   },
   handleLeave: function(data) {
     this.notice({
+      icon: "icon-exit",
       text: "Umalis na si " + data.user + "!"
     });
   },
@@ -64,11 +66,16 @@ var Room = Backbone.View.extend({
     this.listenTo(this.model, 'change:user', this.updateUser);
   },
   updateUser: function() {
-    this.$('h2').text(this.model.get('user'));
+    this.$('h2 span').text(this.model.get('user'));
   },
   notice: function(msg) {
     this.$('.log ul').append(
-      $('<li>').addClass('notice').text(msg.text)
+      $('<li>')
+        .addClass('notice')
+        .text(msg.text)
+        .prepend(
+          $('<i>').addClass(msg.icon)
+        )
     );
     this.scrollBot();
   },

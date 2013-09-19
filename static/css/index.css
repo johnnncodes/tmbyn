@@ -92,6 +92,11 @@ button {
   padding: 0 0.5em;
 }
 
+.room h2 i {
+  font-size: 80%;
+  margin-right: 0.5em;
+}
+
 .log {
   padding: 0 0.5em 0 0;
   width: 80%;
@@ -103,6 +108,11 @@ button {
 
 .log .notice {
   color: #888;
+}
+
+.log .notice i {
+  font-size: 80%;
+  margin-right: 0.5em;
 }
 
 .log .message strong {
