@@ -5,7 +5,6 @@ html
 		link[rel="stylesheet"][href="http://fonts.googleapis.com/css?family=Raleway:300,300italic,400,400italic,700,700italic|Open+Sans:300,300italic,400,400italic,700,700italic"]
 		link[rel="stylesheet"][href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css"]
 		link[rel="stylesheet"][href="/static/css/icon.css"]
-		link[rel="stylesheet"][href="/static/css/grid.css"]
 		link[rel="stylesheet"][href="/static/css/index.css"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"]
@@ -34,11 +33,10 @@ html
 				h2
 					i.icon-smiley
 					span
-				div.row
-					div.log.col
-						ul
-					div.users.col
-						ul
+				div.log
+					ul
+				div.users
+					ul
 				div.chat
 					form
 						input[type="text"][class="msg"]

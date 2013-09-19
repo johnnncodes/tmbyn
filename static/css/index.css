@@ -1,5 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
 body {
   background: #454;
+  padding: 1.5em;
 }
 
 body, input, button, select {
@@ -75,9 +84,10 @@ i {
 }
 
 .app {
-  padding: 1.5em;
+  position: relative;
   margin: 0 auto;
   max-width: 1000px;
+  height: 100%;
 }
 
 .box {
@@ -88,18 +98,33 @@ i {
   display: none;
 }
 
+.room {
+  position: absolute;
+  top: 3.5em;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .room ul {
   background: #fff;
   border: 2px #bbb solid;
   border-radius: 0.3em;
-  height: 40em;
+  height: 100%;
   list-style: none;
   padding: 0 0.5em;
 }
 
+.log, .users {
+  position: absolute;
+  top: 4em;
+  bottom: 4em;
+}
+
 .log {
-  padding: 0 0.5em 0 0;
-  width: 80%;
+  padding-right: 0.5em;
+  right: 20%;
+  left: 1.5em;
 }
 
 .log ul {
@@ -115,8 +140,15 @@ i {
 }
 
 .users {
-  padding: 0;
-  width: 20%;
+  right: 1.5em;
+  left: 80%;
+}
+
+.chat {
+  position: absolute;
+  bottom: 1.5em;
+  left: 1.5em;
+  right: 1.5em;
 }
 
 .msg {
