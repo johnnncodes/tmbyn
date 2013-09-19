@@ -33,10 +33,6 @@ type RoomUser struct {
 	User string `json:"user"`
 }
 
-type Room struct {
-	Name string `json:"name"`
-}
-
 type Message struct {
 	Room string `json:"room"`
 	User string `json:"user"`
@@ -58,23 +54,24 @@ func join(conn *UserConn, ru *RoomUser) {
 
 	// Announce
 	rooms.Emit(ru.Room, "join_room", ru)
-	conn.Emit("join", &Room{ru.Room})
+	conn.Emit("join", ru)
 
 	log.Printf("%s joined %s", ru.User, ru.Room)
 }
 
-func leave(conn *UserConn, rd *Room) {
-	rooms.Emit(rd.Name, "leave_room", &RoomUser{rd.Name, conn.Name})
-	rooms.Leave(rd.Name, conn.Connection)
+func leave(conn *UserConn, ru *RoomUser) {
+	ru.User = conn.Name
+	rooms.Emit(ru.Room, "leave_room", ru)
+	rooms.Leave(ru.Room, conn.Connection)
 
-	log.Printf("%s left %s", conn.Name, rd.Name)
+	log.Printf("%s left %s", ru.User, ru.Room)
 }
 
 func msg(conn *UserConn, md *Message) {
 	md.User = conn.Name
 	rooms.Emit(md.Room, "msg", &md)
 
-	log.Printf("%s talked at %s", conn.Name, md.Room)
+	log.Printf("%s talked at %s", md.User, md.Room)
 }
 
 func WebsocketHandler(psc redis.PubSubConn) func(http.ResponseWriter, *http.Request) {

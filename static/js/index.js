@@ -129,11 +129,11 @@ var App = Backbone.View.extend({
   },
   handleJoin: function(data) {
     this.room.set({
-      name: data.name,
+      name: data.room,
       user: data.user
     });
     this.views.room.$el.show();
-    this.router.navigate(data.name);
+    this.router.navigate(data.room);
   }
 })
 
