@@ -122,6 +122,7 @@ var Room = Backbone.View.extend({
 });
 
 var App = Backbone.View.extend({
+  el: '.app',
   initialize: function(options) {
     _.bindAll(this, 'handleJoin');
     this.connect();
@@ -176,7 +177,6 @@ var Router = Backbone.Router.extend({
     this.app.views.join.$el.show().find('.user').focus();
   }
 });
-
 
 $(function() {
   var app = new App({router: new Router()});
