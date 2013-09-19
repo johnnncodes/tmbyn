@@ -2,11 +2,10 @@ package kmsp
 
 import (
 	"github.com/eknkc/amber"
-	"github.com/garyburd/redigo/redis"
 	"net/http"
 )
 
-func IndexHandler(redisConn redis.Conn) func(http.ResponseWriter, *http.Request) {
+func IndexHandler() func(http.ResponseWriter, *http.Request) {
 	t, err := amber.CompileFile("index.amber", amber.Options{false, false})
 	if err != nil {
 		panic(err)

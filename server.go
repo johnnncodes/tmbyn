@@ -2,12 +2,13 @@ package kmsp
 
 import (
 	"github.com/garyburd/redigo/redis"
-	"github.com/pilu/traffic"
 	"github.com/robfig/config"
+	"log"
 	"net/http"
 )
 
 func Serve(addr string, conf *config.Config) {
+
 	redisAddr, err := conf.String("redis", "address")
 	if err != nil {
 		panic(err)
@@ -17,11 +18,15 @@ func Serve(addr string, conf *config.Config) {
 		panic(err)
 	}
 	defer redisConn.Close()
-	router := traffic.New()
-	router.Get("/", IndexHandler(redisConn))
-	router.Get("/ws", WebsocketHandler(redisConn))
+	psc := redis.PubSubConn{redisConn}
+	psc.Subscribe("tmsp")
+
+	http.HandleFunc("/", IndexHandler())
 	http.Handle("/static/", http.StripPrefix("/static/",
 		http.FileServer(http.Dir("static"))))
-	http.Handle("/", router)
-	http.ListenAndServe(addr, nil)
+	http.HandleFunc("/ws", WebsocketHandler(psc))
+
+	if err := http.ListenAndServe(addr, nil); err != nil {
+		log.Fatal(err)
+	}
 }
