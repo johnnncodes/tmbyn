@@ -36,7 +36,7 @@ var Room = Backbone.View.extend({
     'submit form': 'send'
   },
   initialize: function(options) {
-    _.bindAll(this, 'handleJoin', 'handleMsg');
+    _.bindAll(this, 'handleJoin', 'handleLeave', 'handleMsg', 'handleUsers');
     this.conn = options.conn;
     this.setupConnListeners();
     this.setupModelListeners();
@@ -45,22 +45,29 @@ var Room = Backbone.View.extend({
     this.listenTo(this.conn, 'join_room', this.handleJoin);
     this.listenTo(this.conn, 'leave_room', this.handleLeave);
     this.listenTo(this.conn, 'msg', this.handleMsg);
+    this.listenTo(this.conn, 'users', this.handleUsers);
   },
   handleJoin: function(data) {
     this.notice({
       icon: "icon-enter",
-      text: "Andito na si " + data.user + "!"
+      text: "Andito na si " + data.user
     });
     this.$('.msg').focus();
   },
   handleLeave: function(data) {
     this.notice({
       icon: "icon-exit",
-      text: "Umalis na si " + data.user + "!"
+      text: "Umalis na si " + data.user
     });
   },
   handleMsg: function(data) {
     this.message(data);
+  },
+  handleUsers: function(data) {
+    var $list = this.$('.users ul').empty();
+    _.each(data.users, function(user) {
+      $list.append($('<li>').text(user));
+    });
   },
   setupModelListeners: function () {
     this.listenTo(this.model, 'change:user', this.updateUser);
