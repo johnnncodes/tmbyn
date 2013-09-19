@@ -47,10 +47,6 @@ var Room = Backbone.View.extend({
     this.listenTo(this.conn, 'msg', this.handleMsg);
   },
   handleJoin: function(data) {
-    this.model.set({
-      name: data.room,
-      user: data.user
-    });
     this.notice({
       text: "Andito na si " + data.user + "!"
     });
@@ -132,6 +128,10 @@ var App = Backbone.View.extend({
     this.conn.emit('join', {user: user, room: room});
   },
   handleJoin: function(data) {
+    this.room.set({
+      name: data.name,
+      user: data.user
+    });
     this.views.room.$el.show();
     this.router.navigate(data.name);
   }
