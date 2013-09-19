@@ -70,6 +70,7 @@ var Room = Backbone.View.extend({
     this.$('.log ul').append(
       $('<li>').addClass('notice').text(msg.text)
     );
+    this.scrollBot();
   },
   message: function(msg) {
     this.$('.log ul').append(
@@ -80,6 +81,11 @@ var Room = Backbone.View.extend({
           $('<strong>').text(msg.user)
         )
     );
+    this.scrollBot();
+  },
+  scrollBot: function() {
+    var $list = this.$('.log ul');
+    $list.get(0).scrollTop = $list.attr('scrollHeight');
   },
   send: function(e) {
     e.preventDefault();
