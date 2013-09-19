@@ -66,7 +66,13 @@ var Room = Backbone.View.extend({
   handleUsers: function(data) {
     var $list = this.$('.users ul').empty();
     _.each(data.users, function(user) {
-      $list.append($('<li>').text(user));
+      $list.append(
+        $('<li>')
+          .text(user)
+          .prepend(
+            $('<i>').addClass('icon-smiley')
+          )
+      );
     });
   },
   setupModelListeners: function () {
