@@ -28,46 +28,49 @@ func NewUserConn(conn *golem.Connection) *UserConn {
 	return &UserConn{Connection: conn}
 }
 
-type JoinData struct {
+type RoomUser struct {
 	Room string `json:"room"`
 	User string `json:"user"`
 }
 
-type RoomData struct {
+type Room struct {
 	Name string `json:"name"`
 }
 
-type MessageData struct {
+type Message struct {
 	Room string `json:"room"`
 	User string `json:"user"`
 	Text string `json:"text"`
 }
 
-func join(conn *UserConn, jd *JoinData) {
+func join(conn *UserConn, ru *RoomUser) {
 	// Get or create room
-	room := jd.Room
-	if room == "" {
-		room = id()
+	if ru.Room == "" {
+		ru.Room = id()
 	}
 
 	// Set room
 	// TODO: Unique names
-	conn.Name = jd.User
+	conn.Name = ru.User
 
 	// Join
-	rooms.Join(room, conn.Connection)
-	conn.Emit("join", &RoomData{room})
+	rooms.Join(ru.Room, conn.Connection)
 
-	log.Printf("%s joined %s", jd.User, room)
+	// Announce
+	rooms.Emit(ru.Room, "join_room", ru)
+	conn.Emit("join", &Room{ru.Room})
+
+	log.Printf("%s joined %s", ru.User, ru.Room)
 }
 
-func leave(conn *UserConn, rd *RoomData) {
+func leave(conn *UserConn, rd *Room) {
+	rooms.Emit(rd.Name, "leave_room", &RoomUser{rd.Name, conn.Name})
 	rooms.Leave(rd.Name, conn.Connection)
 
 	log.Printf("%s left %s", conn.Name, rd.Name)
 }
 
-func msg(conn *UserConn, md *MessageData) {
+func msg(conn *UserConn, md *Message) {
 	md.User = conn.Name
 	rooms.Emit(md.Room, "msg", &md)
 

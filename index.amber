@@ -6,33 +6,36 @@ html
 		link[rel="stylesheet"][href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css"]
 		link[rel="stylesheet"][href="/static/css/grid.css"]
 		link[rel="stylesheet"][href="/static/css/index.css"]
+		script[src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"]
+		script[src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"]
+		script[src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"]
+		script[src="/static/js/golem.js"]
+		script[src="/static/js/index.js"]
 	body
 		div.app
-			h1 KWENTOMOSAPAGONG.COM
+			h1
+				a[href="/"] KWENTOMOSAPAGONG.COM
 			div.welcome.box
 				h2 Gusto mo ng ka-kwentuhan?
-				p
-					| Edi i-ikwento mo sa pagong!
+				p Edi i-ikwento mo sa pagong!
 				br
-				p
-					button.ok Mag-kwento sa pagong
-			div.enter.box
-				h2 Sino ka po?
-				p
-					input[type="text"][name="name"][placeholder="Ngalan"]
-					button.ok.inline Pasok
+				form
+					p
+						input[type="text"][class="user"][placeholder="Sino ka po?"]
+						button.ok.inline Mag-kwento sa pagong
+			div.join.box
+				h2 Sumali sa kwentuhan
+				form
+					p
+						input[type="text"][class="user"][placeholder="Sino ka po?"]
+						button.ok.inline Sumali
 			div.room.box
-				h2 Chat title
+				h2
 				div.row
 					div.log.col
 						ul
-							li marksteve: Hello
-							li marksteve: Hello
-							li marksteve: Hello
 					div.users.col
 						ul
-							li marksteve
-							li marksteve
-							li marksteve
 				div.chat
-					input[type="text"][name="chat"]
+					form
+						input[type="text"][class="msg"]
