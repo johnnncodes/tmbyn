@@ -36,7 +36,14 @@ var Room = Backbone.View.extend({
     'submit form': 'send'
   },
   initialize: function(options) {
-    _.bindAll(this, 'handleJoin', 'handleLeave', 'handleMsg', 'handleUsers');
+    _.bindAll(
+      this,
+      'handleJoin',
+      'handleLeave',
+      'handleMsg',
+      'handleUsers',
+      'handleClose'
+    );
     this.conn = options.conn;
     this.setupConnListeners();
     this.setupModelListeners();
@@ -46,17 +53,18 @@ var Room = Backbone.View.extend({
     this.listenTo(this.conn, 'leave_room', this.handleLeave);
     this.listenTo(this.conn, 'msg', this.handleMsg);
     this.listenTo(this.conn, 'users', this.handleUsers);
+    this.listenTo(this.conn, 'close', this.handleClose);
   },
   handleJoin: function(data) {
     this.notice({
-      icon: "icon-enter",
+      icon: 'icon-login',
       text: data.user
     });
     this.$('.msg').focus();
   },
   handleLeave: function(data) {
     this.notice({
-      icon: "icon-exit",
+      icon: 'icon-logout',
       text: data.user
     });
   },
@@ -73,6 +81,12 @@ var Room = Backbone.View.extend({
             $('<i>').addClass('icon-smiley')
           )
       );
+    });
+  },
+  handleClose: function(data) {
+    this.notice({
+      icon: 'icon-warning',
+      text: 'Got disconnected.'
     });
   },
   setupModelListeners: function () {
