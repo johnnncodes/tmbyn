@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"regexp"
 	"time"
 )
 
@@ -19,10 +20,11 @@ func id() string {
 }
 
 var (
-	rooms     = golem.NewRoomManager()
-	connUser  = make(map[*golem.Connection]*UserConn)
-	roomNames = make(map[string]*goset.Set)
-	userRooms = make(map[*UserConn]*goset.Set)
+	rooms        = golem.NewRoomManager()
+	connUser     = make(map[*golem.Connection]*UserConn)
+	roomNames    = make(map[string]*goset.Set)
+	userRooms    = make(map[*UserConn]*goset.Set)
+	invalidChars = regexp.MustCompile("\\W")
 )
 
 type UserConn struct {
@@ -52,6 +54,14 @@ type Message struct {
 }
 
 func join(uc *UserConn, ru *RoomUser) {
+	// Remove invalid user name chars
+	ru.User = invalidChars.ReplaceAllString(ru.User, "")
+
+	// Check user name length
+	if len(ru.User) == 0 {
+		return
+	}
+
 	// Get or create room
 	if ru.Room == "" {
 		ru.Room = id()
