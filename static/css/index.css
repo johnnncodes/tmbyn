@@ -42,13 +42,13 @@ input[type=text],
 input[type=password],
 button {
   height: 2em;
-  padding: 0 1em;
 }
 
 input[type=text],
 input[type=password] {
   background: white;
   border: 2px #bbb solid;
+  padding: 0 0.5em;
 }
 
 input[type=text]:focus,
@@ -62,6 +62,7 @@ button {
   border: 0;
   color: #fff;
   font-weight: bold;
+  padding: 0 1em;
 }
 
 i {
@@ -146,7 +147,7 @@ i {
   color: #888;
 }
 
-.log .message strong {
+.log .message .user {
   margin-right: 0.5em;
 }
 
