@@ -50,14 +50,14 @@ var Room = Backbone.View.extend({
   handleJoin: function(data) {
     this.notice({
       icon: "icon-enter",
-      text: "Andito na si " + data.user
+      text: data.user
     });
     this.$('.msg').focus();
   },
   handleLeave: function(data) {
     this.notice({
       icon: "icon-exit",
-      text: "Umalis na si " + data.user
+      text: data.user
     });
   },
   handleMsg: function(data) {
