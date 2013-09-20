@@ -86,7 +86,7 @@ var Room = Backbone.View.extend({
   handleClose: function(data) {
     this.notice({
       icon: 'icon-warning',
-      text: 'Got disconnected.'
+      text: 'Got disconnected. <a href="">Refresh.</a>'
     });
   },
   setupModelListeners: function () {
@@ -100,7 +100,7 @@ var Room = Backbone.View.extend({
     this.$('.log ul').append(
       $('<li>')
         .addClass('notice')
-        .text(msg.text)
+        .html(msg.text)
         .prepend(
           $('<i>').addClass(msg.icon)
         )
@@ -111,10 +111,7 @@ var Room = Backbone.View.extend({
     this.$('.log ul').append(
       $('<li>')
         .addClass('message')
-        .text(msg.text)
-        .prepend(
-          $('<strong>').text(msg.user)
-        )
+        .html(marked('__' + msg.user + ':__ ' + msg.text))
     );
     this.scrollBot();
   },
@@ -151,6 +148,12 @@ var App = Backbone.View.extend({
     };
     this.setupModelListeners();
     this.setupViewListeners();
+    marked.setOptions({
+      gfm: true,
+      tables: true,
+      sanitize: true,
+      smartypants: true,
+    });
   },
   connect: function() {
     var o = location.origin.split(':');
