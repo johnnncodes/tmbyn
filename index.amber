@@ -16,17 +16,17 @@ html
 			h1
 				a[href="/"] TMBYN
 			div.welcome.box
-				h2 Dead simple chat room service.
+				h2 Dead simple chat rooms.
 				br
 				form
 					p
-						input[type="text"][class="user"][placeholder="Name"]
+						input[type="text"][class="user"][placeholder="Your name"]
 						button.ok.inline Create a room
 			div.join.box
 				h2 Join room
 				form
 					p
-						input[type="text"][class="user"][placeholder="Name"]
+						input[type="text"][class="user"][placeholder="Your name"]
 						button.ok.inline Join
 			div.room.box
 				h2
