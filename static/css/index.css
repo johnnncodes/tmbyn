@@ -104,6 +104,12 @@ i {
   left: 0;
 }
 
+.room .name {
+  padding-right: 0.5em;
+  margin-right: 0.5em;
+  border-right: 2px #bbb solid;
+}
+
 .room ul {
   background: #fff;
   border: 2px #bbb solid;

@@ -28,7 +28,7 @@ Instead of a list of all class selectors,
 you can use the generic selector below, but it's slower:
 [class*="icon-"] {
 */
-.icon-warning, .icon-login, .icon-logout, .icon-smiley, .icon-cool {
+.icon-warning, .icon-login, .icon-logout, .icon-smiley, .icon-cool, .icon-bubbles {
   font-family: 'icomoon';
   speak: none;
   font-style: normal;
@@ -52,4 +52,7 @@ you can use the generic selector below, but it's slower:
 }
 .icon-cool:before {
   content: "\e003";
+}
+.icon-bubbles:before {
+  content: "\e004";
 }

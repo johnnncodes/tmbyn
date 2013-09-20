@@ -90,10 +90,11 @@ var Room = Backbone.View.extend({
     });
   },
   setupModelListeners: function () {
-    this.listenTo(this.model, 'change:user', this.updateUser);
+    this.listenTo(this.model, 'change', this.updateTitle);
   },
-  updateUser: function() {
-    this.$('h2 span').text(this.model.get('user'));
+  updateTitle: function() {
+    this.$('h2 span.name').text(this.model.get('name'));
+    this.$('h2 span.user').text(this.model.get('user'));
   },
   notice: function(msg) {
     this.$('.log ul').append(
@@ -148,6 +149,7 @@ var App = Backbone.View.extend({
       join: new Join({model: this.room}),
       room: new Room({model: this.room, conn: this.conn})
     };
+    this.setupModelListeners();
     this.setupViewListeners();
   },
   connect: function() {
@@ -160,6 +162,9 @@ var App = Backbone.View.extend({
   },
   setupConnListeners: function() {
     this.listenTo(this.conn, 'join', this.handleJoin);
+  },
+  setupModelListeners: function() {
+    this.listenTo(this.room, 'change:name', this.updateTitle);
   },
   setupViewListeners: function() {
     this.listenTo(this.views.welcome, 'create', this.join);
@@ -175,6 +180,9 @@ var App = Backbone.View.extend({
     });
     this.views.room.$el.show();
     this.router.navigate(data.room);
+  },
+  updateTitle: function() {
+    document.title = this.room.get('name');
   }
 })
 
