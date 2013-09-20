@@ -160,6 +160,11 @@ i {
   left: 80%;
 }
 
+.users ul {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 .chat {
   position: absolute;
   bottom: 1.5em;
