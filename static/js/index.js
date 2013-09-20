@@ -111,7 +111,14 @@ var Room = Backbone.View.extend({
     this.$('.log ul').append(
       $('<li>')
         .addClass('message')
-        .html(marked('__' + msg.user + ':__ ' + msg.text))
+        .html(
+          $(marked(msg.text))
+            .prepend(
+              $('<strong>')
+                .addClass('user')
+                .text(msg.user + ':')
+            )
+        )
     );
     this.scrollBot();
   },
