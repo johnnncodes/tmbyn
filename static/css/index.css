@@ -37,7 +37,6 @@ h1 a {
 input[type=text],
 input[type=password],
 button {
-  border-radius: 0.3em;
   height: 2em;
   padding: 0 1em;
 }
@@ -92,7 +91,6 @@ i {
 
 .box {
   background: #eee;
-  border-radius: 0.6em;
   margin-bottom: 1.5em;
   padding: 1.5em;
   display: none;
@@ -109,7 +107,6 @@ i {
 .room ul {
   background: #fff;
   border: 2px #bbb solid;
-  border-radius: 0.3em;
   height: 100%;
   list-style: none;
   padding: 0 0.5em;
