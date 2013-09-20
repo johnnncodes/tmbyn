@@ -2,6 +2,7 @@ package tmbyn
 
 import (
 	"fmt"
+	"github.com/fatih/goset"
 	"github.com/garyburd/redigo/redis"
 	"github.com/trevex/golem"
 	"log"
@@ -20,8 +21,8 @@ func id() string {
 var (
 	rooms     = golem.NewRoomManager()
 	connUser  = make(map[*golem.Connection]*UserConn)
-	roomUsers = make(map[string]map[*UserConn]bool)
-	userRooms = make(map[*UserConn]map[string]bool)
+	roomNames = make(map[string]*goset.Set)
+	userRooms = make(map[*UserConn]*goset.Set)
 )
 
 type UserConn struct {
@@ -50,22 +51,26 @@ type Message struct {
 	Text string `json:"text"`
 }
 
-func getRoomUsers(r string) *RoomUsers {
-	u := make([]string, 0)
-	for _uc, _ := range roomUsers[r] {
-		u = append(u, _uc.Name)
-	}
-	return &RoomUsers{u}
-}
-
 func join(uc *UserConn, ru *RoomUser) {
 	// Get or create room
 	if ru.Room == "" {
 		ru.Room = id()
 	}
 
+	// Init mappings
+	if roomNames[ru.Room] == nil {
+		roomNames[ru.Room] = goset.New()
+	}
+	if userRooms[uc] == nil {
+		userRooms[uc] = goset.New()
+	}
+
+	// Append _ for dupe names
+	for roomNames[ru.Room].Has(ru.User) {
+		ru.User += "_"
+	}
+
 	// Set room
-	// TODO: Unique names
 	uc.Name = ru.User
 
 	// Join
@@ -75,18 +80,12 @@ func join(uc *UserConn, ru *RoomUser) {
 	rooms.Emit(ru.Room, "join_room", ru)
 	uc.Emit("join", ru)
 
-	// Hackish mapping
-	if roomUsers[ru.Room] == nil {
-		roomUsers[ru.Room] = make(map[*UserConn]bool)
-	}
-	roomUsers[ru.Room][uc] = true
-	if userRooms[uc] == nil {
-		userRooms[uc] = make(map[string]bool)
-	}
-	userRooms[uc][ru.Room] = true
+	// Update mappings
+	roomNames[ru.Room].Add(uc.Name)
+	userRooms[uc].Add(ru.Room)
 
 	// Update users
-	rooms.Emit(ru.Room, "users", getRoomUsers(ru.Room))
+	rooms.Emit(ru.Room, "users", &RoomUsers{roomNames[ru.Room].StringSlice()})
 
 	log.Printf("%s joined %s", ru.User, ru.Room)
 }
@@ -106,14 +105,15 @@ func WebsocketHandler(psc redis.PubSubConn) func(http.ResponseWriter, *http.Requ
 		rooms.LeaveAll(conn)
 		uc, ok := connUser[conn]
 		if ok {
-			for r, _ := range userRooms[uc] {
-				delete(roomUsers[r], uc)
+			for _, r := range userRooms[uc].StringSlice() {
+				roomNames[r].Remove(uc.Name)
 				rooms.Emit(r, "leave_room", &RoomUser{r, uc.Name})
-				rooms.Emit(r, "users", getRoomUsers(r))
+				rooms.Emit(r, "users", &RoomUsers{roomNames[r].StringSlice()})
 				log.Printf("%s left %s", uc.Name, r)
 			}
 			delete(userRooms, uc)
 		}
+		delete(connUser, conn)
 	})
 	return g.Handler()
 }
