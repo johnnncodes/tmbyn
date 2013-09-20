@@ -80,7 +80,7 @@ func join(uc *UserConn, ru *RoomUser) {
 		ru.User += "_"
 	}
 
-	// Set room
+	// Set connection name
 	uc.Name = ru.User
 
 	// Join
