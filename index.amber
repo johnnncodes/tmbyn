@@ -1,7 +1,7 @@
 doctype 5
 html
 	head
-		title KWENTO MO SA PAGONG
+		title TMBYN
 		link[rel="stylesheet"][href="http://fonts.googleapis.com/css?family=Raleway:300,300italic,400,400italic,700,700italic|Open+Sans:300,300italic,400,400italic,700,700italic"]
 		link[rel="stylesheet"][href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css"]
 		link[rel="stylesheet"][href="/static/css/icon.css"]
@@ -14,21 +14,20 @@ html
 	body
 		div.app
 			h1
-				a[href="/"] KWENTOMOSAPAGONG.COM
+				a[href="/"] TMBYN
 			div.welcome.box
-				h2 Gusto mo ng ka-kwentuhan?
-				p Edi i-ikwento mo sa pagong!
+				h2 Dead simple chat room service.
 				br
 				form
 					p
-						input[type="text"][class="user"][placeholder="Sino ka po?"]
-						button.ok.inline Mag-kwento sa pagong
+						input[type="text"][class="user"][placeholder="Name"]
+						button.ok.inline Create a room
 			div.join.box
-				h2 Sumali sa kwentuhan
+				h2 Join room
 				form
 					p
-						input[type="text"][class="user"][placeholder="Sino ka po?"]
-						button.ok.inline Sumali
+						input[type="text"][class="user"][placeholder="Name"]
+						button.ok.inline Join
 			div.room.box
 				h2
 					i.icon-smiley

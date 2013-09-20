@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/marksteve/kwentomosapagong"
+	"github.com/marksteve/tmbyn"
 	"github.com/robfig/config"
 )
 
@@ -18,22 +18,17 @@ func main() {
 	confFile := flag.Arg(0)
 
 	fmt.Printf(`
-
-   _  .----.
-  (_\/      \_,
-    'uu----uu~'
-
-  KWENTO MO SA PAGONG
+  TMBYN
 
   version   %s
   addr      %s
   confFile  %s
 
-`, kmsp.Version, addr, confFile)
+`, tmbyn.Version, addr, confFile)
 
 	conf, err := config.ReadDefault(confFile)
 	if err != nil {
 		panic(err)
 	}
-	kmsp.Serve(addr, conf)
+	tmbyn.Serve(addr, conf)
 }

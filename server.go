@@ -1,4 +1,4 @@
-package kmsp
+package tmbyn
 
 import (
 	"github.com/garyburd/redigo/redis"
@@ -19,7 +19,7 @@ func Serve(addr string, conf *config.Config) {
 	}
 	defer redisConn.Close()
 	psc := redis.PubSubConn{redisConn}
-	psc.Subscribe("tmsp")
+	psc.Subscribe("tmbyn")
 
 	http.HandleFunc("/", IndexHandler())
 	http.Handle("/static/", http.StripPrefix("/static/",
