@@ -7,14 +7,14 @@ import (
 )
 
 var (
-	addr      string
-	redisAddr string
+	addr     string
+	confFile string
 )
 
 func main() {
 	flag.StringVar(&addr, "address", ":9000", "Address to listen")
 	flag.Parse()
-	confFile := flag.Arg(0)
+	confFile = flag.Arg(0)
 
 	fmt.Printf(`
   TMBYN

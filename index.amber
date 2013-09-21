@@ -10,6 +10,7 @@ html
 		script[src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/marked/0.2.9/marked.min.js"]
+		script[src="https://www.youtube.com/iframe_api"]
 		script[src="/static/js/golem.js"]
 		script[src="/static/js/index.js"]
 	body
@@ -42,3 +43,4 @@ html
 				div.chat
 					form
 						input[type="text"][class="msg"]
+			div#player

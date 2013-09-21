@@ -1,3 +1,9 @@
+var ytapi = _.extend(Backbone.Events);
+
+function onYouTubeIframeAPIReady() {
+  ytapi.trigger('ready');
+}
+
 (function() {
 
 var Welcome = Backbone.View.extend({
@@ -42,18 +48,23 @@ var Room = Backbone.View.extend({
       'handleLeave',
       'handleMsg',
       'handleUsers',
-      'handleClose'
+      'handleClose',
+      'handlePlayerReady',
+      'handlePlayerStateChange',
+      'handlePlay'
     );
     this.conn = options.conn;
-    this.setupConnListeners();
-    this.setupModelListeners();
+    this.setupListeners();
   },
-  setupConnListeners: function() {
+  setupListeners: function() {
     this.listenTo(this.conn, 'join_room', this.handleJoin);
     this.listenTo(this.conn, 'leave_room', this.handleLeave);
     this.listenTo(this.conn, 'msg', this.handleMsg);
     this.listenTo(this.conn, 'users', this.handleUsers);
     this.listenTo(this.conn, 'close', this.handleClose);
+    this.listenTo(this.conn, 'play', this.handlePlay);
+    this.listenTo(this.model, 'change', this.updateTitle);
+    this.listenTo(ytapi, 'ready', this.setupPlayer);
   },
   handleJoin: function(data) {
     this.notice({
@@ -89,8 +100,12 @@ var Room = Backbone.View.extend({
       text: 'Got disconnected. <a href="">Refresh.</a>'
     });
   },
-  setupModelListeners: function () {
-    this.listenTo(this.model, 'change', this.updateTitle);
+  handlePlay: function(data) {
+    this.notice({
+      icon: 'icon-play',
+      text: data.title
+    });
+    this.player.loadVideoById(data.id, 0, 'default');
   },
   updateTitle: function() {
     this.$('h2 span.name').text(this.model.get('name'));
@@ -137,6 +152,22 @@ var Room = Backbone.View.extend({
       });
       $msg.val('');
     }
+  },
+  setupPlayer: function() {
+    this.player = new YT.Player('player', {
+      height: 0,
+      width: 0,
+      events: {
+        onReady: this.handlePlayerReady,
+        onStateChange: this.handlePlayerStateChange
+      }
+    });
+  },
+  handlePlayerReady: function() {
+    console.log('player ready');
+  },
+  handlePlayerStateChange: function(e) {
+    console.log('player state change', e);
   }
 });
 
@@ -153,14 +184,8 @@ var App = Backbone.View.extend({
       join: new Join({model: this.room}),
       room: new Room({model: this.room, conn: this.conn})
     };
-    this.setupModelListeners();
-    this.setupViewListeners();
-    marked.setOptions({
-      gfm: true,
-      tables: true,
-      sanitize: true,
-      smartypants: true,
-    });
+    this.setupPlugins();
+    this.setupListeners();
   },
   connect: function() {
     var o = location.origin.split(':');
@@ -173,10 +198,16 @@ var App = Backbone.View.extend({
   setupConnListeners: function() {
     this.listenTo(this.conn, 'join', this.handleJoin);
   },
-  setupModelListeners: function() {
-    this.listenTo(this.room, 'change:name', this.updateTitle);
+  setupPlugins: function() {
+    marked.setOptions({
+      gfm: true,
+      tables: true,
+      sanitize: true,
+      smartypants: true,
+    });
   },
-  setupViewListeners: function() {
+  setupListeners: function() {
+    this.listenTo(this.room, 'change:name', this.updateTitle);
     this.listenTo(this.views.welcome, 'create', this.join);
     this.listenTo(this.views.join, 'join', this.join);
   },

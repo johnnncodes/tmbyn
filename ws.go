@@ -3,16 +3,14 @@ package tmbyn
 import (
 	"fmt"
 	"github.com/fatih/goset"
-	"github.com/garyburd/redigo/redis"
 	"github.com/trevex/golem"
 	"log"
 	"math/rand"
 	"net/http"
 	"regexp"
+	"strings"
 	"time"
 )
-
-var r = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func id() string {
 	i := 100000 + r.Intn(900000)
@@ -20,7 +18,9 @@ func id() string {
 }
 
 var (
+	r            = rand.New(rand.NewSource(time.Now().UnixNano()))
 	rooms        = golem.NewRoomManager()
+	player       = NewPlayer(rooms)
 	connUser     = make(map[*golem.Connection]*UserConn)
 	roomNames    = make(map[string]*goset.Set)
 	userRooms    = make(map[*UserConn]*goset.Set)
@@ -102,11 +102,26 @@ func join(uc *UserConn, ru *RoomUser) {
 
 func msg(uc *UserConn, md *Message) {
 	md.User = uc.Name
-	rooms.Emit(md.Room, "msg", &md)
+	if strings.HasPrefix(md.Text, "/") {
+		s := strings.SplitN(strings.TrimPrefix(md.Text, "/"), " ", 2)
+		cmd := s[0]
+		args := make([]string, 0)
+		if len(s) > 1 {
+			args = append(args, strings.Split(s[1], " ")...)
+		}
+		switch cmd {
+		case "play":
+			if len(args) > 0 {
+				player.Play(&PlayReq{md.Room, args[0]})
+			}
+		}
+	} else {
+		rooms.Emit(md.Room, "msg", &md)
+	}
 	log.Printf("%s talked at %s", md.User, md.Room)
 }
 
-func WebsocketHandler(psc redis.PubSubConn) func(http.ResponseWriter, *http.Request) {
+func WebsocketHandler() func(http.ResponseWriter, *http.Request) {
 	g := golem.NewRouter()
 	g.SetConnectionExtension(NewUserConn)
 	g.On("join", join)
