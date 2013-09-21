@@ -115,11 +115,13 @@ func WebsocketHandler(psc redis.PubSubConn) func(http.ResponseWriter, *http.Requ
 		rooms.LeaveAll(conn)
 		uc, ok := connUser[conn]
 		if ok {
-			for _, r := range userRooms[uc].StringSlice() {
-				roomNames[r].Remove(uc.Name)
-				rooms.Emit(r, "leave_room", &RoomUser{r, uc.Name})
-				rooms.Emit(r, "users", &RoomUsers{roomNames[r].StringSlice()})
-				log.Printf("%s left %s", uc.Name, r)
+			if userRooms[uc] != nil {
+				for _, r := range userRooms[uc].StringSlice() {
+					roomNames[r].Remove(uc.Name)
+					rooms.Emit(r, "leave_room", &RoomUser{r, uc.Name})
+					rooms.Emit(r, "users", &RoomUsers{roomNames[r].StringSlice()})
+					log.Printf("%s left %s", uc.Name, r)
+				}
 			}
 			delete(userRooms, uc)
 		}
