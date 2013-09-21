@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/marksteve/tmbyn"
-	"github.com/robfig/config"
 )
 
 var (
@@ -26,9 +25,6 @@ func main() {
 
 `, tmbyn.Version, addr, confFile)
 
-	conf, err := config.ReadDefault(confFile)
-	if err != nil {
-		panic(err)
-	}
-	tmbyn.Serve(addr, conf)
+	tmbyn.ReadConfig(confFile)
+	tmbyn.Serve(addr)
 }
