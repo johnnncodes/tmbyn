@@ -199,6 +199,10 @@ var App = Backbone.View.extend({
     this.listenTo(this.conn, 'join', this.handleJoin);
   },
   setupPlugins: function() {
+    this.$('.chat input').inputHistory({
+      useLatest: true,
+      ignoreEmpty: true
+    });
     marked.setOptions({
       gfm: true,
       tables: true,
