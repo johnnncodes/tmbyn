@@ -33,10 +33,15 @@ html
 						button.ok.inline Join
 			div.room.box
 				h2
-					i.icon-bubbles
 					span.name
-					i.icon-smiley
+						i.icon-bubbles
+						span
 					span.user
+						i.icon-smiley
+						span
+					span.playing
+						i.icon-play
+						span
 				div.log
 					ul
 				div.users

@@ -1,4 +1,14 @@
-var ytapi = _.extend(Backbone.Events);
+var ytapi = _.extend(
+  Backbone.Events,
+  {
+    UNSTARTED: -1,
+    ENDED: 0,
+    PLAYING: 1,
+    PAUSED: 2,
+    BUFFERING: 3,
+    VIDEO_CUED: 5
+  }
+);
 
 function onYouTubeIframeAPIReady() {
   ytapi.trigger('ready');
@@ -101,6 +111,7 @@ var Room = Backbone.View.extend({
     });
   },
   handlePlay: function(data) {
+    this.model.set('playing', data);
     this.notice({
       icon: 'icon-play',
       text: data.title
@@ -108,8 +119,15 @@ var Room = Backbone.View.extend({
     this.player.loadVideoById(data.id, 0, 'default');
   },
   updateTitle: function() {
-    this.$('h2 span.name').text(this.model.get('name'));
-    this.$('h2 span.user').text(this.model.get('user'));
+    this.$('h2 .name span').text(this.model.get('name'));
+    this.$('h2 .user span').text(this.model.get('user'));
+    var playing = this.model.get('playing');
+    var $playing = this.$('h2 .playing');
+    if (playing) {
+      $playing.show().find('span').text(playing.title);
+    } else {
+      $playing.hide();
+    }
   },
   notice: function(msg) {
     this.$('.log ul').append(
@@ -164,10 +182,13 @@ var Room = Backbone.View.extend({
     });
   },
   handlePlayerReady: function() {
-    console.log('player ready');
   },
   handlePlayerStateChange: function(e) {
-    console.log('player state change', e);
+    switch (e.data) {
+      case ytapi.ENDED:
+        this.model.set('playing', null);
+        break;
+    }
   }
 });
 

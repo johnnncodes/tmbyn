@@ -109,7 +109,7 @@ i {
   left: 0;
 }
 
-.room .name {
+.room h2 > span {
   padding-right: 0.5em;
   margin-right: 0.5em;
   border-right: 2px #bbb solid;
