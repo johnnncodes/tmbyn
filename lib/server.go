@@ -1,19 +1,17 @@
 package tmbyn
 
 import (
-	"github.com/codegangsta/martini"
 	"log"
 	"net/http"
 )
 
 func Serve(addr string) {
-	m := martini.Classic()
 	// Handlers
 	http.HandleFunc("/", IndexHandler())
-	m.Get("/", IndexHandler())
-	m.Get("/ws", WebsocketHandler())
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.HandleFunc("/ws", WebsocketHandler())
 	// Serve
-	if err := http.ListenAndServe(addr, m); err != nil {
+	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal(err)
 	}
 }
