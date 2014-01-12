@@ -3,7 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/marksteve/tmbyn"
+
+	"github.com/marksteve/tmbyn/lib"
 )
 
 var (

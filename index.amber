@@ -4,16 +4,16 @@ html
 		title TMBYN
 		link[rel="stylesheet"][href="http://fonts.googleapis.com/css?family=Raleway:300,300italic,400,400italic,700,700italic|Open+Sans:300,300italic,400,400italic,700,700italic"]
 		link[rel="stylesheet"][href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css"]
-		link[rel="stylesheet"][href="/static/css/icon.css"]
-		link[rel="stylesheet"][href="/static/css/index.css"]
+		link[rel="stylesheet"][href="/css/icon.css"]
+		link[rel="stylesheet"][href="/css/index.css"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"]
 		script[src="//cdnjs.cloudflare.com/ajax/libs/marked/0.2.9/marked.min.js"]
 		script[src="https://www.youtube.com/iframe_api"]
-		script[src="/static/js/jquery.inputHistory.min.js"]
-		script[src="/static/js/golem.js"]
-		script[src="/static/js/index.js"]
+		script[src="/js/jquery.inputHistory.min.js"]
+		script[src="/js/golem.js"]
+		script[src="/js/index.js"]
 	body
 		div.app
 			h1
