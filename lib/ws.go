@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fatih/goset"
+	"github.com/fatih/set"
 	"github.com/trevex/golem"
 )
 
@@ -23,8 +23,8 @@ var (
 	rooms        = golem.NewRoomManager()
 	player       = NewPlayer(rooms)
 	connUser     = make(map[*golem.Connection]*UserConn)
-	roomNames    = make(map[string]*goset.Set)
-	userRooms    = make(map[*UserConn]*goset.Set)
+	roomNames    = make(map[string]*set.Set)
+	userRooms    = make(map[*UserConn]*set.Set)
 	invalidChars = regexp.MustCompile("\\W")
 )
 
@@ -70,10 +70,10 @@ func join(uc *UserConn, ru *RoomUser) {
 
 	// Init mappings
 	if roomNames[ru.Room] == nil {
-		roomNames[ru.Room] = goset.New()
+		roomNames[ru.Room] = set.New()
 	}
 	if userRooms[uc] == nil {
-		userRooms[uc] = goset.New()
+		userRooms[uc] = set.New()
 	}
 
 	// Append _ for dupe names
@@ -96,7 +96,7 @@ func join(uc *UserConn, ru *RoomUser) {
 	userRooms[uc].Add(ru.Room)
 
 	// Update users
-	rooms.Emit(ru.Room, "users", &RoomUsers{roomNames[ru.Room].StringSlice()})
+	rooms.Emit(ru.Room, "users", &RoomUsers{set.StringSlice(roomNames[ru.Room])})
 
 	log.Printf("%s joined %s", ru.User, ru.Room)
 }
@@ -132,10 +132,10 @@ func WebsocketHandler() func(http.ResponseWriter, *http.Request) {
 		uc, ok := connUser[conn]
 		if ok {
 			if userRooms[uc] != nil {
-				for _, r := range userRooms[uc].StringSlice() {
+				for _, r := range set.StringSlice(userRooms[uc]) {
 					roomNames[r].Remove(uc.Name)
 					rooms.Emit(r, "leave_room", &RoomUser{r, uc.Name})
-					rooms.Emit(r, "users", &RoomUsers{roomNames[r].StringSlice()})
+					rooms.Emit(r, "users", &RoomUsers{set.StringSlice(roomNames[r])})
 					log.Printf("%s left %s", uc.Name, r)
 				}
 			}
