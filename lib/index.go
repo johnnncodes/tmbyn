@@ -1,14 +1,25 @@
 package tmbyn
 
 import (
-	"github.com/eknkc/amber"
+	"io/ioutil"
+	"log"
 	"net/http"
+
+	"github.com/eknkc/amber"
 )
 
 func IndexHandler() func(http.ResponseWriter, *http.Request) {
-	t, err := amber.CompileFile("index.amber", amber.Options{false, false})
+	tf, err := sfs.Open("/index.amber")
 	if err != nil {
-		panic(err)
+		log.Fatal(err.Error())
+	}
+	tb, err := ioutil.ReadAll(tf)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	t, err := amber.Compile(string(tb), amber.Options{false, false})
+	if err != nil {
+		log.Fatal(err.Error())
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
 		t.Execute(w, struct{}{})
