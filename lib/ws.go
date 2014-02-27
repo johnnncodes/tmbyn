@@ -2,14 +2,15 @@ package tmbyn
 
 import (
 	"fmt"
-	"github.com/fatih/goset"
-	"github.com/trevex/golem"
 	"log"
 	"math/rand"
 	"net/http"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/fatih/goset"
+	"github.com/trevex/golem"
 )
 
 func id() string {

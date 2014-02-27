@@ -2,13 +2,14 @@ package tmbyn
 
 import (
 	"fmt"
-	json "github.com/bitly/go-simplejson"
-	"github.com/trevex/golem"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 	"time"
+
+	json "github.com/bitly/go-simplejson"
+	"github.com/trevex/golem"
 )
 
 const (
